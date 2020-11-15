@@ -49,10 +49,12 @@ void createGraph (Node *input, int size) {
     input->adj = malloc(sizeof(Node *) * size);
     input->adj_size = size;
 
+/*
     int c;
     for (c = 0; c < size; c++) {
         input->adj[c] = NULL;
     }
+*/
 }
 
 
@@ -124,11 +126,17 @@ void DFS (Node *head, int hop, Data data) {
 
                 if (availableHealing > data.initial_power) {
                     totalHealing = data.initial_power;
-                    bestHealing = totalHealing;
+                    if (totalHealing > bestHealing) {
+                        bestHealing = totalHealing;
+                        best_path_length = 1;
+                    }
                 }
                 else {
                     totalHealing = availableHealing;
-                    bestHealing = totalHealing;
+                    if (totalHealing > bestHealing) {
+                        bestHealing = totalHealing;
+                        best_path_length = 1;
+                    }
                 }
 
 
@@ -139,7 +147,6 @@ void DFS (Node *head, int hop, Data data) {
 
                 temp_path[0] = current;
                 healing[0] = totalHealing;
-                best_path_length = 1;
                 DFS (current, hop+1, data);
 
                 current->visited = 0;
@@ -153,7 +160,6 @@ void DFS (Node *head, int hop, Data data) {
         while (c < head->adj_size) {
             if (head->adj[c]->visited == 0) {
                 current = head->adj[c];
-
                 current->visited = 1;
 
                 printf("\nName: ");
@@ -192,7 +198,7 @@ void DFS (Node *head, int hop, Data data) {
 
                     DFS(current, hop+1, data);
                     totalHealing-= healingFactor;
-                    current->visited = 0;
+
                 }
                 else {
                     totalHealing += availableHealing;
@@ -215,13 +221,11 @@ void DFS (Node *head, int hop, Data data) {
                             best_path_length = hop;
                         }
                     }
-
-
                     DFS(current, hop+1, data);
                     totalHealing -= availableHealing;
-                    current->visited = 0;
                 }
             }
+            current->visited = 0;
             c++;
         }
     }
