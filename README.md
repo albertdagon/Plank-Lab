@@ -1,4 +1,4 @@
-# Plank-Lab
+# Chain Heal Program Utilizing Depth First Search
 
 
 Lab Instructions and Starter Code Here:
